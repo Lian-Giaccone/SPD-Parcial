@@ -6,7 +6,7 @@ Ian Villan
 Guido Faraldo
 Tomas Fragnito 
 
-# 3ra Parte del Parcial
+# 4ta Parte del Parcial
 
 ![Ejercicio Parcial 3ra Parte](https://github.com/Lian-Giaccone/SPD-Parcial/assets/131891074/adf156bd-90a6-466f-a707-72c6bc52bdb5)
 
@@ -22,4 +22,4 @@ o se apagaran si estan en uso.
 
 # Link
 
-https://www.tinkercad.com/things/kM0Ok4xTVeK-ejercicio-parcial-3ra-parte/editel?sharecode=yssidPjef1phUV9LFUDhpGY5zCeS9qhdNlDcSFHkZfw
+https://www.tinkercad.com/things/4AIuj5HADYB-ejercicio-4-parcial/editel?sharecode=fwfJQYzPZaU6o_FrBR12094a5ImRSWKl_85Zej0GrHA
