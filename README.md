@@ -17,7 +17,7 @@ Tiene un switch que dependiendo de la posición en la que se encuentre, mostrar�
 Contiene un motor, un sensor de temperatura y un sensor de luz ambiental.
 El motor funciona siempre y cuando el sensor de temperatura supere un limite de temperatura y en caso de bajar la misma, el motor se apagará,
 el sensor de temperatura da acceso al motor, pero para que esté funcione, el sensor de luz ambiental tendrá que superar un limite, en casa de hacerlo
-el sensor de temperatura funcionará dando acceso al mismo y al motor, en casa contrario de no superar el limite, los componentes no funcionaran
+el sensor de temperatura funcionará dando acceso al mismo y al motor, en caso contrario de no superar el limite, los componentes no funcionaran
 o se apagaran si estan en uso.
 
 #Link
