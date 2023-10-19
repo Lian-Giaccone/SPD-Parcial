@@ -1,0 +1,204 @@
+//C++
+int LED_PINS[] = {10, 11, 5, 6, 7, 9 , 8};
+int ANALOGO[][7]= {
+  {255, 255, 255, 255, 255, 255, 0},   	// 0
+  {0, 255, 255, 0, 0, 0, 0},       		// 1
+  {255, 255, 0, 255, 255, 0, 255},    	// 2
+  {255, 255, 255, 255, 0, 0, 255},    	// 3
+  {0, 255, 255, 0, 0, 255, 255},     	// 4
+  {255, 0, 255, 255, 0, 255, 255},    	// 5
+  {255, 0, 255, 255, 255, 255, 255},   	// 6
+  {255, 255, 255, 0, 0, 0, 0},      	// 7
+  {255, 255, 255, 255, 255, 255, 255},  // 8
+  {255, 255, 255, 255, 0, 255, 255}    	// 9
+};
+#define DISPLAY_UNO A5
+#define DISPLAY_DOS A4
+#define BOTON_PIN 2
+#define MOTOR_PIN 3
+#define SENSOR_PIN A3
+#define SENSOR_LUZ_PIN A2
+
+int contador = -1;
+int y = 700;
+
+void displayNumero(int numero);
+void configurarLed(int led, int estado);
+void dibujarNumeroDos(int numero);
+void printCount(int count);
+void prenderDisplay(int digito);
+void esperarTiempo(int cantidadTiempo);
+bool esPrimo(int numero);
+
+void setup() 
+{
+	for (int i = 5; i <=11; i++) 
+    {
+		configurarLed(i, OUTPUT);
+	}
+	pinMode(DISPLAY_UNO, OUTPUT);
+	digitalWrite(DISPLAY_UNO, LOW);
+	pinMode(DISPLAY_DOS, OUTPUT);
+	digitalWrite(DISPLAY_DOS, LOW);
+	pinMode(BOTON_PIN, INPUT);
+	pinMode(MOTOR_PIN, OUTPUT);
+
+	dibujarNumeroDos(0);
+	Serial.begin(9600);
+}
+
+void loop() 
+{
+	int leerBoton = digitalRead(BOTON_PIN);
+	int leerSensor = analogRead(SENSOR_PIN);
+	int temperatura = (leerSensor * 0.48875) -49;
+	int leerLuz = analogRead(SENSOR_LUZ_PIN);
+  	contador++;
+  	esperarTiempo(300);
+
+	if(leerBoton == HIGH) 
+    {
+		
+		do 
+        {
+			contador++;
+		} while (!esPrimo(contador));
+		
+
+		printCount(contador);
+		delay(300);
+	}
+  	else
+    {
+      printCount(contador);
+      esperarTiempo(300);
+    }
+  	
+  	if(contador > 99)
+    {
+      contador = 0;
+    }
+
+	if (leerLuz < y) 
+    {
+		if (temperatura >40) 
+        {
+			digitalWrite(MOTOR_PIN,HIGH);
+		}
+		else 
+        {
+			digitalWrite(MOTOR_PIN,LOW);
+		}
+	}
+	else 
+    {
+		digitalWrite(MOTOR_PIN,LOW);
+	}
+
+	Serial.println(temperatura);
+}
+
+void configurarLed(int led,int estado) 
+{
+	pinMode(led,estado);
+}
+
+void displayNumero(int numero) 
+{
+	for (int i =0; i < sizeof(LED_PINS)/sizeof(LED_PINS[0]); i++)
+    {
+		digitalWrite(LED_PINS[i],ANALOGO[numero][i]);
+	}
+}
+
+void dibujarNumeroDos(int numero) 
+{
+	for (int i =0; i <=7; i++) 
+    {
+		digitalWrite(LED_PINS[i],LOW);
+	}
+	switch (numero) 
+    {
+	case 0:
+		displayNumero(0);
+	break;
+	case 1:
+		displayNumero(1);
+	break;
+	case 2:
+		displayNumero(2);
+	break;
+	case 3:
+		displayNumero(3);
+	break;
+	case 4:
+		displayNumero(4);
+	break;
+	case 5:
+		displayNumero(5);
+	break;
+	case 6:
+		displayNumero(6);
+	break;
+	case 7:
+		displayNumero(7);
+	break;
+	case 8:
+		displayNumero(8);
+	break;
+	case 9:
+		displayNumero(9);
+	break;
+	}
+}
+
+void prenderDisplay(int digito) 
+{
+	if (digito == DISPLAY_DOS) 
+    {
+		digitalWrite(DISPLAY_DOS,LOW);
+		digitalWrite(DISPLAY_UNO,HIGH);
+		delay(10);
+	}
+	else if (digito == DISPLAY_UNO) 
+    {
+		digitalWrite(DISPLAY_DOS,HIGH);
+		digitalWrite(DISPLAY_UNO,LOW);
+		delay(10);
+	}
+	else 
+    {
+		digitalWrite(DISPLAY_DOS,HIGH);
+		digitalWrite(DISPLAY_UNO,HIGH);
+	}
+}
+
+void printCount(int count) 
+{
+	prenderDisplay(0);
+	dibujarNumeroDos(count/10);
+	prenderDisplay(DISPLAY_UNO);
+	prenderDisplay(0);
+	dibujarNumeroDos(count -10 * ((int)count/10));
+	prenderDisplay(DISPLAY_DOS);
+}
+
+void esperarTiempo(int cantidadTiempo) 
+{
+	for (int i =0; i < cantidadTiempo; i++) 
+    {
+		delay(1);
+	}
+}
+
+bool esPrimo(int numero) 
+{
+	for (int i =2; i <= numero/2; i++) 
+    {
+		if (numero %i ==0) 
+        {
+			return false;
+		}
+	}
+	return true;
+}
